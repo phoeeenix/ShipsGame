@@ -1,15 +1,77 @@
 package Ships;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Ship {
 
     private String name;
     private int length;
-    private Set<Integer> takenFields;
+    private Set<Integer> takenFields = new Set<Integer>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return false;
+        }
+
+        @Override
+        public Iterator<Integer> iterator() {
+            return null;
+        }
+
+        @Override
+        public Object[] toArray() {
+            return new Object[0];
+        }
+
+        @Override
+        public <T> T[] toArray(T[] ts) {
+            return null;
+        }
+
+        @Override
+        public boolean add(Integer integer) {
+            return false;
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends Integer> collection) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> collection) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+    };
     static ArrayList<Integer> randomNumbers;
     int randomNum;
     //int randomNum1;
@@ -43,6 +105,7 @@ public class Ship {
         //boolean czyprawada;
         do {
             getRandomNum();
+            System.out.println("returned randomNum");
             directionShip();
             System.out.println("petla");
         }
@@ -54,7 +117,9 @@ public class Ship {
 
     private int getRandomNum() {
         Random rand = new Random();
-        do {randomNum = rand.nextInt(100 - length - 1);} // - length cause every ship takes x-length fields on a floor
+        do {
+        randomNum = rand.nextInt(100 - length - 1);
+         } // - length cause every ship takes x random fields -length fields before end of a floor
         while (!takenFields.contains(randomNum));
         return randomNum;
     }
@@ -70,22 +135,22 @@ public class Ship {
     private boolean checkFreeFields() {
         boolean enoughSpace = false;
         if (direction == '-') {
-            if (randomNum + length < Floor.noFloorColumns) {
+            //if (randomNum + length < Floor.noFloorColumns) {
                 for (int i = randomNum; i < randomNum + length; i++) {
                     shipPosition.add(randomNum);
                     //randomNumbers.add(i);
                     enoughSpace = true;
                 }
             }
-        }
+        //}
         if (direction == '|') {
-            if (randomNum + length < Floor.noFloorRaws) {
+            //if (randomNum + length < Floor.noFloorRaws) {
                 for (int i = randomNum; i < randomNum + length; i++) {
                     shipPosition.add(randomNum);
                     //randomNumbers.add(i);
                     enoughSpace = true;
                 }
-            }
+            //}
         }
         return enoughSpace;
     }
