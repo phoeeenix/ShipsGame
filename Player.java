@@ -2,6 +2,7 @@ package Ships;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Player {
@@ -10,7 +11,7 @@ public class Player {
 
     private String playerName;
     private int shipsNumber;
-    ArrayList<Ship> shipsGroup;
+    private List<Ship> shipsGroup;
     Scanner playerScan = new Scanner(System.in);
 
     public Player() {
@@ -21,8 +22,9 @@ public class Player {
         shotNumber = 0;
         this.playerName = playerName;
         this.shipsNumber = shipsNumber;
-        shipsGroup = new ArrayList<Ship>();
-        Scanner playerScan = new Scanner(System.in);
+        //this.shipsGroup = new ArrayList<Ship>();
+
+        //Scanner playerScan = new Scanner(System.in);
     }
 
     public static int incrementShots() {
@@ -64,6 +66,7 @@ public class Player {
             }
         }
         while (scanShipsNumber < 1);
+        this.shipsGroup = new ArrayList<>();
         System.out.println("Player " + playerName + " with " + shipsNumber + " ships has been configured.");
     }
 
@@ -83,8 +86,10 @@ public class Player {
             ship.setShip();
             System.out.println("ship set up");
             shipsGroup.add(ship);
+            System.out.println("ship added");
             shipLength++;
         }
     }
+
 
 }
