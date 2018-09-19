@@ -6,7 +6,7 @@ public class Ship {
 
     private String name;
     private int length;
-    private Set<Integer> takenFields = new Set<Integer>() {
+    private Set<Integer> takenFields = new HashSet<Integer>() {
         @Override
         public int size() {
             return 0;
@@ -78,6 +78,7 @@ public class Ship {
     //int randomNum2;
     char direction;
     /*static */ArrayList<Integer> shipPosition;
+    boolean enoughSpace = false;
 
     public Ship(String shipName, int shipLength) {
         this.name = shipName;
@@ -103,58 +104,97 @@ public class Ship {
 
     public int setShip() {
         //boolean czyprawada;
-        do {
-            getRandomNum();
-            System.out.println("returned randomNum");
-            directionShip();
-            System.out.println("petla");
-        }
-        while (checkFreeFields() == true);
-        //randomNum1 = randomNum + 1;
+        /*do {*/
+        getRandomNum();
+        System.out.println("returned randomNum");
+        directionShip();
+        System.out.println("returned direction");
+        checkFreeFields();
+        System.out.println("ENOUGHSPACE = " + enoughSpace);
+    /*}
+        while (enoughSpace == true);*/
+    //randomNum1 = randomNum + 1;
         //randomNum2 = randomNum + 2;
+        System.out.println("Ship has been set up");
         return randomNum;
     }
 
     private int getRandomNum() {
         Random rand = new Random();
+        boolean repeatNum = false;
         do {
         randomNum = rand.nextInt(100 - length - 1);
-         } // - length cause every ship takes x random fields -length fields before end of a floor
-        while (!takenFields.contains(randomNum));
+        } // - length cause every ship takes x random fields -length fields before end of a floor
+        while (repeatNum != takenFields.contains(randomNum));
+        System.out.println("Random no is " + randomNum);
         return randomNum;
     }
 
     private char directionShip() {
-        if (randomNum % 2 == 0)
+        if (randomNum % 2 == 0) {
             direction = '|';
-        else
+            System.out.println("direction |");
+        }
+        else {
             direction = '-';
+            System.out.println("direction -");
+        }
         return direction;
     }
 
     private boolean checkFreeFields() {
-        boolean enoughSpace = false;
+        //boolean enoughSpace = true;
         if (direction == '-') {
+            System.out.println("direction -");
             //if (randomNum + length < Floor.noFloorColumns) {
-                for (int i = randomNum; i < randomNum + length; i++) {
-                    shipPosition.add(randomNum);
+            checkPositionFields();
+               /* for (int i = randomNum; i < randomNum + length; i++) {
+                    if (takenFields.contains(i)) {
+                        enoughSpace = false;
+                        break;
+                    }
+                    shipPosition.add(i);
                     //randomNumbers.add(i);
                     enoughSpace = true;
-                }
-            }
+                }*/
+               enoughSpaceIfTrue();
+               /* if (enoughSpace == true) {
+                    takenFields.addAll(shipPosition);
+                    System.out.println("Ship position fields has been added to takenFields");*/
+        }
         //}
         if (direction == '|') {
+            System.out.println("direction |");
             //if (randomNum + length < Floor.noFloorRaws) {
-                for (int i = randomNum; i < randomNum + length; i++) {
-                    shipPosition.add(randomNum);
-                    //randomNumbers.add(i);
-                    enoughSpace = true;
-                }
+            checkPositionFields();
+            enoughSpaceIfTrue();
+          /*  if (enoughSpace == true)
+                takenFields.addAll(shipPosition);*/
             //}
         }
         return enoughSpace;
     }
 
+    private boolean checkPositionFields() {
+        for (int i = randomNum; i < randomNum + length; i++) {
+            if (takenFields.contains(i)) {
+                enoughSpace = false;
+                System.out.println("ES is FALSE");
+                break;
+            }
+            shipPosition.add(i);
+            enoughSpace = true;
+            //randomNumbers.add(i);
+        }
+        return enoughSpace;
+    }
+
+    private void enoughSpaceIfTrue() {
+        if (enoughSpace == true) {
+            takenFields.addAll(shipPosition);
+            System.out.println("Ship position fields has been added to takenFields");
+        }
+    }
 
     public int takeShot() {
         System.out.println("Put a field number within 1 to " + Floor.floorSize + " to destroy a ship");
